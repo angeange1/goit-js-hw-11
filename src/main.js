@@ -6,35 +6,33 @@ import 'simplelightbox/dist/simple-lightbox.min.css'
 import { fetchImages } from "./js/pixabay-api"
 import { renderImages } from "./js/render-functions"
 
-export const gallery = document.querySelector('ul.gallery')
-export let images
+export const gallery = document.querySelector("ul")
 export let inputValue
+
+export const showLoader = () => {loader.style.display = "flex"}
+export const hideLoader = () => {loader.style.display = "none"}
 
 const form = document.querySelector("form")
 const searchInput = document.querySelector("input")
-const searchBtn = document.querySelector("button")
-const loader = document.querySelector(".loading")
+const loader = document.querySelector(".loader")
 
-export const showLoader = () => {
-    loader.style.display = "flex"
-}
+loader.style.display = "none"
 
-const hideLoader = () => {
-  loader.style.display = "none"
-}
-
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", event => {
   event.preventDefault()
-  inputValue = event.target.elements.search.value.trim()
-  if (!inputValue.length) {
+
+  inputValue = searchInput.value.trim()
+
+  if (inputValue !== "") {
+  fetchImages(inputValue)
+    .then((images) => renderImages(images.hits))
+    .catch((error) => console.log(error)) 
+  form.reset()
+  }
+  else {
     gallery.innerHTML = ""
     iziToast.info({
       message: "Please fill the field",
     })
   }
-
-  fetchImages()
-    .then((images) => renderImages(images.hits))
-    .catch((error) => console.log(error)) 
-}
-)
+})

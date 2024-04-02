@@ -59,6 +59,7 @@ button {
   color: #ffffff;
   font-size: 16px;
   font-weight: 500;
+  border: none;
 }
 
 .gallery {
@@ -95,6 +96,11 @@ img {
   height: 200px;
   width: 360px;
   object-fit: cover;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
 }
 
 .loader {
